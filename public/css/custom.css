@@ -1,0 +1,10 @@
+.button {
+    width: min-content;
+    color: white;
+    transition: color 0.5s;
+}
+
+.button:hover {
+    color: grey;
+    transition: color 0.5s;
+}
