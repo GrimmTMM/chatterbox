@@ -4,6 +4,10 @@
 
 @section('content')
     <div class="row mx-1">
+        <a href="/change_username"><button class="btn btn-primary btn-sm"><i class="fas fa-fw fa-user"></i> Change Username</button></a>
+        <a href="/change_password"><button class="btn btn-primary btn-sm mx-1"><i class="fas fa-fw fa-asterisk"></i> Change Password</button></a>
+    </div>
+    <div class="row mx-1">
         <div class="font-weight-bold h2">Your Chatters</div>
     </div>
     <div class="row">

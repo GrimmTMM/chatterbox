@@ -203,4 +203,26 @@ class PageController extends BaseController
             return redirect('login')->with('errors', ['Must be logged in to access']);
         }
     }
+
+    public function change_username(Request $request) {
+        if($this->check_login($request)) {
+            $user_id = $request->session()->get('id');
+            $user = User::where('id', $user_id)->first();
+            return view('change_username')->with('user', $user);
+        }
+        else {
+            return redirect('login')->with('errors', ['Must be logged in to access']);
+        }
+    }
+
+    public function change_password(Request $request) {
+        if($this->check_login($request)) {
+            $user_id = $request->session()->get('id');
+            $user = User::where('id', $user_id)->first();
+            return view('change_password')->with('user', $user);
+        }
+        else {
+            return redirect('login')->with('errors', ['Must be logged in to access']);
+        }
+    }
 }

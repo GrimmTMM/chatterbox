@@ -99,8 +99,78 @@ class UserController extends BaseController
     }
 
     public function remove_user($id) {
-        $chatter = User::where('id', $id)->first();
-        $chatter->delete();
+        $user = User::where('id', $id)->first();
+        $user->delete();
         return redirect()->back();
+    }
+
+    public function change_username(Request $request) {
+        $id = $request->id;
+        $username = $request->username;
+        $user = User::where('id', $id)->first();
+        $old_username = $user->username;
+
+        // Validations
+        $errors = [];
+
+        if(strlen($username) <= 0) {
+            array_push($errors, 'Username can\'t be empty');
+        }
+        if($user->where('username', $username)->count() != 0 && $username != $old_username) {
+            array_push($errors, 'Username is taken');
+        }
+
+        if(count($errors) > 0) {
+            return redirect()->back()->with('errors', $errors);
+        }
+        // End Validations
+
+        $user->username = $username;
+        $user->save();
+        return redirect('profile');
+    }
+
+    public function change_password(Request $request) {
+        $id = $request->id;
+        $new_password = $request->new_password;
+        $new_confirm = $request->new_confirm;
+        $old_password = $request->old_password;
+        $user = User::where('id', $id)->first();
+
+        // Validations
+        $errors = [];
+
+        if(strlen($new_password) <= 0) {
+            array_push($errors, 'New password can\'t be empty');
+        }
+        elseif(strlen($new_password) < 8) {
+            array_push($errors, 'Password must at least be 8 characters long');
+        }
+        if(strlen($new_confirm) <= 0) {
+            array_push($errors, 'New password confirmation can\'t be empty');
+        }
+        if(strlen($old_password) <= 0) {
+            array_push($errors, 'Old password can\'t be empty');
+        }
+        elseif(!Hash::check($old_password, $user->where('id', $id)->value('password'))) {
+            array_push($errors, 'Incorrect old password');
+        }
+        if($new_password != $new_confirm) {
+            array_push($errors, 'Password does not match');
+        }
+        
+
+        if(count($errors) > 0) {
+            return redirect()->back()->with('errors', $errors);
+        }
+
+        if(count($errors) > 0) {
+            return redirect()->back()->with('errors', $errors);
+        }
+        // End Validations
+
+        $user->password = Hash::make($new_password);
+        $user->save();
+        return redirect('login');
     }
 }
