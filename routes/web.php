@@ -74,3 +74,11 @@ Route::get('remove_user/{id}', [UserController::class, 'remove_user']);
 Route::get('category_list', [PageController::class, 'category_list']);
 
 Route::get('user_list', [PageController::class, 'user_list']);
+
+Route::get('change_username', [PageController::class, 'change_username']);
+
+Route::get('change_password', [PageController::class, 'change_password']);
+
+Route::post('change_username_action', [UserController::class, 'change_username']);
+
+Route::post('change_password_action', [UserController::class, 'change_password']);
